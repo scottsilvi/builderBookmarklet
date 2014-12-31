@@ -1,6 +1,5 @@
 javascript: void
 function() {
-	alert('sup bitches!');
 	var jsCode = document.createElement('script'), styleArr = [],
 	head = document.head || document.getElementsByTagName('head')[0],
     style = document.createElement('style');
