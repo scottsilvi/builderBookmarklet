@@ -6,7 +6,7 @@ This Bookmarklet exposes keybinding functionality for manipulating the builder. 
 
 Just add the bookmarklet below to your bookmarks bar: 
 ```javascript
-javascript:(function(){var el=document.createElement('script');el.src='https://raw.githubusercontent.com/scottsilvi/builderBookmarklet/master/builderKeybinding.js';document.body.appendChild(el);})();
+javascript:(function(){var el=document.createElement('script');el.src='https://rawgit.com/scottsilvi/builderBookmarklet/master/builderKeybinding.js';document.body.appendChild(el);})();
 ```
 
 ## Usage
