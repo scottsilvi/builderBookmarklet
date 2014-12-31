@@ -6,12 +6,33 @@ This Bookmarklet exposes keybinding functionality for manipulating the builder. 
 
 Just add the bookmarklet below to your bookmarks bar: 
 ```javascript
-javascript:(function(){var el=document.createElement('script');el.src='https://zeman.github.io/perfmap/perfmap.js';document.body.appendChild(el);})();
+javascript:(function(){var el=document.createElement('script');el.src='https://raw.githubusercontent.com/scottsilvi/builderBookmarklet/master/builderKeybinding.js';document.body.appendChild(el);})();
 ```
 
 ## Usage
 
-TODO: Write usage instructions
+1. To enter interactive mode, simply type `ctrl + shift + i`
+2. The builder menu items will automatically collapse
+3. Use the arrow keys to [navigate the builder](#navigation)
+4. Use the spacebar to hide / show elements
+
+## Navigation
+
+> Up
+
+The up arrow will navigate up the builder element list
+
+> Down
+
+The down arrow will navigate down the builder element list
+
+> Left
+
+The left arrow will collapse a container
+
+> Right
+
+The right arrow will expand a container
 
 ## Contributing
 
@@ -20,15 +41,3 @@ TODO: Write usage instructions
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
-
-## History
-
-TODO: Write history
-
-## Credits
-
-TODO: Write credits
-
-## License
-
-TODO: Write license
