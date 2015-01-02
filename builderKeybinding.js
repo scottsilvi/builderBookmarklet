@@ -26,11 +26,11 @@ javascript: void function() {
 		};
 
 		var setCurrentElement = function (current, temp) {
-			console.log('current pre: ', current);
+			console.log('current pre: ', $('.list-group-item').index(current));
 			if (temp.length) {
 				current = temp;
 			}
-			console.log('current pre: ', current);
+			console.log('current post: ', $('.list-group-item').index(current));
 		};
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
