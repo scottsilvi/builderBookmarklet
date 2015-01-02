@@ -48,7 +48,13 @@ function() {
 			
 			Mousetrap.bind('left', function (e) {
 				toggleInteractiveClass(false);
-				currentElement = currentElement.prevAll().find('.icon .expand.fa-minus-square').last().trigger('click');
+				currentElement = 
+					currentElement
+						.prevAll()
+							.find('.icon .expand.fa-minus-square')
+							.last()
+							.trigger('click')
+						.closest('.list-group-item');
 				toggleInteractiveClass(true);
 			});
 			
