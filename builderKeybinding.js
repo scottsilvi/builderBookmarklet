@@ -18,12 +18,18 @@ function() {
 	head.appendChild(style);
 	document.body.appendChild(jsCode);
 
-	var currentElement;
+	var currentElement, tmpElement;
 
 	setTimeout(function () {
 
-		var toggleInteractiveClass = function (toggle) {
-			currentElement.toggleClass('currentInteractiveElement', toggle);
+		var toggleInteractiveClass = function (elem, toggle) {
+			elem.toggleClass('currentInteractiveElement', toggle);
+		};
+
+		var setCurrentElement = function (current, temp) {
+			if (temp.length) {
+				current = temp;
+			}
 		};
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
@@ -36,19 +42,21 @@ function() {
 			
 			Mousetrap.bind('up', function (e) {
 				toggleInteractiveClass(false);
-				currentElement = currentElement.prevAll(':visible:first');
+				tmpElement = currentElement.prevAll(':visible:first');
+				setCurrentElement(currentElement, tmpElement);
 				toggleInteractiveClass(true);
 			});
 			
 			Mousetrap.bind('down', function (e) {
 				toggleInteractiveClass(false);
-				currentElement = currentElement.nextAll(':visible:first');
+				tmpElement = currentElement.nextAll(':visible:first');
+				setCurrentElement(currentElement, tmpElement);
 				toggleInteractiveClass(true);
 			});
 			
 			Mousetrap.bind('left', function (e) {
 				toggleInteractiveClass(false);
-				currentElement = 
+				tmpElement = 
 					currentElement
 						.prevAll()
 							.find('.icon .expand.fa-minus-square')
@@ -56,6 +64,8 @@ function() {
 							.trigger('click')
 						.closest('.list-group-item');
 				toggleInteractiveClass(true);
+
+				setCurrentElement(currentElement, tmpElement);
 			});
 			
 			Mousetrap.bind('space', function (e) {
