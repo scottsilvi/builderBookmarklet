@@ -36,13 +36,13 @@ function() {
 			
 			Mousetrap.bind('up', function (e) {
 				toggleInteractiveClass(false);
-				currentElement = currentElement.prev(':visible');
+				currentElement = currentElement.prevAll(':visible:first');
 				toggleInteractiveClass(true);
 			});
 			
 			Mousetrap.bind('down', function (e) {
 				toggleInteractiveClass(false);
-				currentElement = currentElement.next(':visible');
+				currentElement = currentElement.nextAll(':visible:first');
 				toggleInteractiveClass(true);
 			});
 			
