@@ -38,24 +38,24 @@ function() {
 			$('.expand.fa-minus-square').trigger('click');
 
 			currentElement = $('.list-group-item').eq(0);
-			toggleInteractiveClass(true);
+			toggleInteractiveClass(currentElement, true);
 			
 			Mousetrap.bind('up', function (e) {
-				toggleInteractiveClass(false);
+				toggleInteractiveClass(currentElement, false);
 				tmpElement = currentElement.prevAll(':visible:first');
 				setCurrentElement(currentElement, tmpElement);
-				toggleInteractiveClass(true);
+				toggleInteractiveClass(currentElement, true);
 			});
 			
 			Mousetrap.bind('down', function (e) {
-				toggleInteractiveClass(false);
+				toggleInteractiveClass(currentElement, false);
 				tmpElement = currentElement.nextAll(':visible:first');
 				setCurrentElement(currentElement, tmpElement);
-				toggleInteractiveClass(true);
+				toggleInteractiveClass(currentElement, true);
 			});
 			
 			Mousetrap.bind('left', function (e) {
-				toggleInteractiveClass(false);
+				toggleInteractiveClass(currentElement, false);
 				tmpElement = 
 					currentElement
 						.prevAll()
@@ -63,7 +63,7 @@ function() {
 							.last()
 							.trigger('click')
 						.closest('.list-group-item');
-				toggleInteractiveClass(true);
+				toggleInteractiveClass(currentElement, true);
 
 				setCurrentElement(currentElement, tmpElement);
 			});
@@ -78,9 +78,9 @@ function() {
 			});
 			
 			Mousetrap.bind('right', function (e) {
-				toggleInteractiveClass(false);
+				toggleInteractiveClass(currentElement, false);
 				currentElement.find('.icon .expand.fa-plus-square').trigger('click');
-				toggleInteractiveClass(true);
+				toggleInteractiveClass(currentElement, true);
 			});
 
 			return false;
