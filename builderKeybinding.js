@@ -25,12 +25,10 @@ javascript: void function() {
 			elem.toggleClass('currentInteractiveElement', toggle);
 		};
 
-		var setCurrentElement = function (current, temp) {
-			console.log('current pre: ', $('.list-group-item').index(current));
+		var setCurrentElement = function (temp) {
 			if (temp.length) {
-				current = temp;
+				currentElement = temp;
 			}
-			console.log('current post: ', $('.list-group-item').index(current));
 		};
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
@@ -44,14 +42,14 @@ javascript: void function() {
 			Mousetrap.bind('up', function (e) {
 				toggleInteractiveClass(currentElement, false);
 				tmpElement = currentElement.prevAll(':visible:first');
-				setCurrentElement(currentElement, tmpElement);
+				setCurrentElement(tmpElement);
 				toggleInteractiveClass(currentElement, true);
 			});
 			
 			Mousetrap.bind('down', function (e) {
 				toggleInteractiveClass(currentElement, false);
 				tmpElement = currentElement.nextAll(':visible:first');
-				setCurrentElement(currentElement, tmpElement);
+				setCurrentElement(tmpElement);
 				toggleInteractiveClass(currentElement, true);
 			});
 			
@@ -66,7 +64,7 @@ javascript: void function() {
 						.closest('.list-group-item');
 				toggleInteractiveClass(currentElement, true);
 
-				setCurrentElement(currentElement, tmpElement);
+				setCurrentElement(tmpElement);
 			});
 			
 			Mousetrap.bind('space', function (e) {
