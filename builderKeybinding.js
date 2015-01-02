@@ -1,5 +1,4 @@
-javascript: void
-function() {
+javascript: void function() {
 	var jsCode = document.createElement('script'), styleArr = [],
 	head = document.head || document.getElementsByTagName('head')[0],
     style = document.createElement('style');
@@ -27,9 +26,11 @@ function() {
 		};
 
 		var setCurrentElement = function (current, temp) {
+			console.log('current pre: ', current);
 			if (temp.length) {
 				current = temp;
 			}
+			console.log('current pre: ', current);
 		};
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
