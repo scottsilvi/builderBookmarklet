@@ -26,13 +26,17 @@ The up arrow will navigate up the builder element list
 
 The down arrow will navigate down the builder element list
 
-> Left
+> Left or Enter (on parent)
 
 The left arrow will collapse a container
 
-> Right
+> Right or Enter (on parent)
 
 The right arrow will expand a container
+
+> Enter
+
+Will open up the 
 
 ## Contributing
 
