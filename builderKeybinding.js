@@ -62,9 +62,10 @@ javascript: void function() {
 							.last()
 							.trigger('click')
 						.closest('.list-group-item');
-				toggleInteractiveClass(currentElement, true);
+				//toggleInteractiveClass(currentElement, true);
 
 				setCurrentElement(tmpElement);
+				toggleInteractiveClass(currentElement, true);
 			});
 			
 			Mousetrap.bind('space', function (e) {
