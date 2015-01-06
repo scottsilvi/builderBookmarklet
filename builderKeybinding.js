@@ -62,9 +62,10 @@ javascript: void function() {
 							.last()
 							.trigger('click')
 						.closest('.list-group-item');
-				toggleInteractiveClass(currentElement, true);
+				//toggleInteractiveClass(currentElement, true);
 
 				setCurrentElement(tmpElement);
+				toggleInteractiveClass(currentElement, true);
 			});
 			
 			Mousetrap.bind('space', function (e) {
@@ -82,29 +83,19 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 
+
+			Mousetrap.bind('enter', function (e) {
+				if($('.modal.fade.in').is(':visible')){
+					$('.modal.fade.in').find('.btn-primary').trigger('click');
+				} else {
+					currentElement.find('.title').trigger('click');
+				}
+			});
+
 			return false;
 		});
-		// Mousetrap.bind('ctrl+shift+h', function (e) {
-		// 	$('#editable-elements .list-group-item:not(:has(.indent)) .controls .glyphicon-eye-open').each(function (idx) {
-		// 		console.log('idx: ', 500 * idx);
-		// 		setTimeout(function () {
-		// 			$(this).trigger('click');
-		// 		}, 2000 * idx);
-		// 	});
-		// 	return false;
-		// });
-		// Mousetrap.bind('ctrl+shift+s', function (e) {
-		// 	$('#editable-elements .list-group-item:not(:has(.indent)) .controls .glyphicon-eye-close').each(function (idx) {
+		
 
-		// 		$(this).trigger('click');
-		// 	});
-		// 	return false;
-		// });
-		// Mousetrap.bind('ctrl+shift+e', function (e) {
-		// 	$('.list-group-item .icon .expand.fa-plus-square').trigger('click');
-		// 	console.log('clicking plus');
-		// 	return false;
-		// });
 	}, 2000);
 
 }();
