@@ -36,7 +36,7 @@ The right arrow will expand a container
 
 > Enter
 
-Will open up the 
+Will open up the editor of the element. Currently only works for non Text elements. Hitting Enter on Text elements will only highlight it. 
 
 ## Contributing
 
