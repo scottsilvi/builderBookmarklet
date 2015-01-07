@@ -6,7 +6,7 @@ javascript: void function() {
 	style.type = 'text/css';
 	jsCode.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js');
 
-	styleArr.push('.currentInteractiveElement { border: 3px solid red !important; }');           
+	styleArr.push('.currentInteractiveElement { background-color: #F1B9BA !important; }');         
 
 	if (style.styleSheet){
 	  style.styleSheet.cssText = styleArr.join('');
@@ -62,7 +62,6 @@ javascript: void function() {
 							.last()
 							.trigger('click')
 						.closest('.list-group-item');
-				//toggleInteractiveClass(currentElement, true);
 
 				setCurrentElement(tmpElement);
 				toggleInteractiveClass(currentElement, true);
@@ -85,10 +84,25 @@ javascript: void function() {
 
 
 			Mousetrap.bind('enter', function (e) {
+				var isTextElement = currentElement.find('.fa-font');
+
 				if($('.modal.fade.in').is(':visible')){
-					$('.modal.fade.in').find('.btn-primary').trigger('click');
+					return false;
+				} else if(isTextElement.length){
+					var editorWindow = $('iframe.ui-frame').contents(),
+						dataID = currentElement.closest('li').data('editable-id');
+					currentElement.find('.title').trigger('click');
+					editorWindow.find('[data-lead-id="' + dataID + '"]').addClass('cke_focus');
 				} else {
 					currentElement.find('.title').trigger('click');
+				}
+			});
+
+			Mousetrap.bind('esc', function (e) {
+				var modal = $('.modal.fade.in');
+
+				if(modal.is(':visible')){
+					modal.find('.btn-primary').trigger('click');
 				}
 			});
 
