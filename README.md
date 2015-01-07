@@ -39,6 +39,10 @@ The right arrow will expand a container
 1. If focus is on a container element, will expand / collapse. 
 2. If focus is on an editable element, will launch editor for element (image editor for images, inline text editor for text, etc)
 
+> Ctrl+shift+H
+
+Collapse all
+
 > Esc
 
 Will close any modal that is currently opened.

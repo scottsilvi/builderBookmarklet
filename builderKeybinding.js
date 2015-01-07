@@ -49,6 +49,14 @@ javascript: void function() {
 
 			currentElement = $('.list-group-item').eq(0);
 			toggleInteractiveClass(currentElement, true);
+
+			//Collapse All
+			Mousetrap.bind('ctrl+shift+h', function(){
+				toggleInteractiveClass(currentElement, false);
+				$('.expand.fa-minus-square').trigger('click');
+				currentElement = $('.list-group-item').eq(0);
+				toggleInteractiveClass(currentElement, true);
+			});
 			
 			Mousetrap.bind('up', function (e) {
 				toggleInteractiveClass(currentElement, false);
@@ -99,8 +107,6 @@ javascript: void function() {
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
-				
-
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
@@ -128,14 +134,14 @@ javascript: void function() {
 				$('#view-phone').trigger('click');
 			});
 
-
+			$('a.title').click(function(){
+				toggleInteractiveClass( currentElement, false );
+				scrollToElement( $(this).closest('li').data('editable-id') );
+				currentElement = $(this).closest('li');
+				toggleInteractiveClass( currentElement, true );
+			});
 
 			return false;
-		});
-		
-		$('li.list-group-item').click(function(){
-			var dataID = $(this).data('editable-id'),
-			scrollToElement( dataID );
 		});
 
 	}, 2000);
