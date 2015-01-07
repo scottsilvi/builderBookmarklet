@@ -105,6 +105,8 @@ javascript: void function() {
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
+				} else if(isTextElement.length){
+					App.viewport.showTextEditor(editorWindow.find('[data-lead-id="'+dataID+'"')[0], true);
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
