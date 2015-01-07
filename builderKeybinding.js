@@ -128,9 +128,15 @@ javascript: void function() {
 				$('#view-phone').trigger('click');
 			});
 
+
+
 			return false;
 		});
 		
+		$('li.list-group-item').click(function(){
+			var dataID = $(this).data('editable-id'),
+			scrollToElement( dataID );
+		});
 
 	}, 2000);
 
