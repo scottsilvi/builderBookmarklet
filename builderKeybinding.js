@@ -31,6 +31,16 @@ javascript: void function() {
 			}
 		};
 
+		var scrollToElement = function (elem) {
+			var el = $('#'+elem);
+
+			if(el.length){
+				$('iframe.ui-frame').animate({
+					scrollTop: $('iframe.ui-frame').contents().find(el).offset().top
+				});
+			}
+		};
+
 		Mousetrap.bind('ctrl+shift+i', function (e) {
 			Mousetrap.reset();
 			// collapse all
@@ -84,18 +94,20 @@ javascript: void function() {
 
 
 			Mousetrap.bind('enter', function (e) {
-				var isTextElement = currentElement.find('.fa-font');
+				var isTextElement = currentElement.find('.fa-font'),
+					dataID = currentElement.closest('li').data('editable-id'),
+					editorWindow = $('iframe.ui-frame').contents();
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
 				} else if(isTextElement.length){
-					var editorWindow = $('iframe.ui-frame').contents(),
-						dataID = currentElement.closest('li').data('editable-id');
 					currentElement.find('.title').trigger('click');
-					editorWindow.find('[data-lead-id="' + dataID + '"]').addClass('cke_focus');
+					editorWindow.find('[data-lead-id="' + dataID + '"]').trigger('focusin').addClass('cke_focus');
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
+
+				scrollToElement(dataID);
 			});
 
 			Mousetrap.bind('esc', function (e) {
