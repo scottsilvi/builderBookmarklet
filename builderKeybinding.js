@@ -6,7 +6,7 @@ javascript: void function() {
 	style.type = 'text/css';
 	jsCode.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js');
 
-	styleArr.push('.currentInteractiveElement { border: 3px solid red !important; }');           
+	styleArr.push('.currentInteractiveElement { background-color: #F1B9BA !important; }');         
 
 	if (style.styleSheet){
 	  style.styleSheet.cssText = styleArr.join('');
@@ -31,6 +31,17 @@ javascript: void function() {
 			}
 		};
 
+		var scrollToElement = function (elem) {
+			var editorWindow = $('iframe.ui-frame').contents(),
+				el = editorWindow.find('[data-lead-id="'+elem+'"');
+
+			if(el.length){
+				editorWindow.find('body,html').animate({
+					scrollTop: el.offset().top-50
+				});
+			}
+		};
+
 		Mousetrap.bind('ctrl+shift+i', function (e) {
 			Mousetrap.reset();
 			// collapse all
@@ -38,6 +49,14 @@ javascript: void function() {
 
 			currentElement = $('.list-group-item').eq(0);
 			toggleInteractiveClass(currentElement, true);
+
+			//Collapse All
+			Mousetrap.bind('ctrl+shift+c', function(){
+				toggleInteractiveClass(currentElement, false);
+				$('.expand.fa-minus-square').trigger('click');
+				currentElement = $('.list-group-item').eq(0);
+				toggleInteractiveClass(currentElement, true);
+			});
 			
 			Mousetrap.bind('up', function (e) {
 				toggleInteractiveClass(currentElement, false);
@@ -62,19 +81,17 @@ javascript: void function() {
 							.last()
 							.trigger('click')
 						.closest('.list-group-item');
-				//toggleInteractiveClass(currentElement, true);
 
 				setCurrentElement(tmpElement);
 				toggleInteractiveClass(currentElement, true);
 			});
 			
 			Mousetrap.bind('space', function (e) {
-			 	eye = currentElement.find('.controls .glyphicon-eye-open');
-			 	if (eye.length) {
-					currentElement.find('.controls .glyphicon-eye-open').trigger('click');
-			 	} else {
-					currentElement.find('.controls .glyphicon-eye-close').trigger('click');
-			 	}
+			 	var eye = currentElement.find('.glyphicon-eye-open');
+
+			 	eye = eye.length ? '.glyphicon-eye-open' : '.glyphicon-eye-close';
+
+				currentElement.find(eye).trigger('click');
 			});
 			
 			Mousetrap.bind('right', function (e) {
@@ -83,18 +100,49 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 
-
 			Mousetrap.bind('enter', function (e) {
+				var isTextElement = currentElement.find('.fa-font'),
+					dataID = currentElement.closest('li').data('editable-id'),
+					editorWindow = $('iframe.ui-frame').contents();
+
 				if($('.modal.fade.in').is(':visible')){
-					$('.modal.fade.in').find('.btn-primary').trigger('click');
+					return false;
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
+
+				scrollToElement( dataID );
+			});
+
+			Mousetrap.bind('esc', function (e) {
+				var modal = $('.modal.fade.in');
+
+				if(modal.is(':visible')){
+					modal.find('.btn-primary').trigger('click');
+				}
+			});
+
+			Mousetrap.bind('ctrl+1', function (e) {
+				$('#view-desktop').trigger('click');
+			});
+
+			Mousetrap.bind('ctrl+2', function (e) {
+				$('#view-tablet').trigger('click');
+			});
+
+			Mousetrap.bind('ctrl+3', function (e) {
+				$('#view-phone').trigger('click');
+			});
+
+			$('a.title').click(function(){
+				toggleInteractiveClass( currentElement, false );
+				scrollToElement( $(this).closest('li').data('editable-id') );
+				currentElement = $(this).closest('li');
+				toggleInteractiveClass( currentElement, true );
 			});
 
 			return false;
 		});
-		
 
 	}, 2000);
 
