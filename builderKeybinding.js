@@ -89,6 +89,8 @@ javascript: void function() {
 					$('.modal.fade.in').find('.btn-primary').trigger('click');
 				} else {
 					currentElement.find('.title').trigger('click');
+					var focusManager = new CKEDITOR.focusManager( CKEDITOR.instances.editor1 );
+					focusManager.focus();
 				}
 			});
 
