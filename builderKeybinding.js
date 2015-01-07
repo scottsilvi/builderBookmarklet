@@ -37,7 +37,7 @@ javascript: void function() {
 
 			if(el.length){
 				editorWindow.find('body,html').animate({
-					scrollTop: el.offset().top+40
+					scrollTop: el.offset().top-50
 				});
 			}
 		};
@@ -79,12 +79,11 @@ javascript: void function() {
 			});
 			
 			Mousetrap.bind('space', function (e) {
-			 	eye = currentElement.find('.controls .glyphicon-eye-open');
-			 	if (eye.length) {
-					currentElement.find('.controls .glyphicon-eye-open').trigger('click');
-			 	} else {
-					currentElement.find('.controls .glyphicon-eye-close').trigger('click');
-			 	}
+			 	var eye = currentElement.find('.glyphicon-eye-open');
+
+			 	eye = eye.length ? '.glyphicon-eye-open' : '.glyphicon-eye-close';
+
+				currentElement.find(eye).trigger('click');
 			});
 			
 			Mousetrap.bind('right', function (e) {
@@ -100,9 +99,8 @@ javascript: void function() {
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
-				} else if(isTextElement.length){
-					currentElement.find('.title').trigger('click');
-					editorWindow.find('[data-lead-id="' + dataID + '"]').trigger('focusin').addClass('cke_focus');
+				
+
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
