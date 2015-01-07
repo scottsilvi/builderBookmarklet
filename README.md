@@ -42,6 +42,18 @@ Will open up the editor of the element. Currently only works for non Text elemen
 
 Will close any modal that is currently opened.
 
+> Ctrl+1
+
+Responsive (Desktop) Viewing Mode
+
+> Ctrl+2
+
+Tablet Viewing Mode
+
+> Ctrl+3
+
+Phone Viewing Mode
+
 ## Contributing
 
 1. Fork it!
