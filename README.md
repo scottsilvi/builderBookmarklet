@@ -36,7 +36,8 @@ The right arrow will expand a container
 
 > Enter
 
-Will open up the editor of the element. Currently only works for non Text elements. Hitting Enter on Text elements will only highlight it.
+1. If focus is on a container element, will expand / collapse. 
+2. If focus is on an editable element, will launch editor for element (image editor for images, inline text editor for text, etc)
 
 > Esc
 
