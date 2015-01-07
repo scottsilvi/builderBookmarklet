@@ -32,11 +32,12 @@ javascript: void function() {
 		};
 
 		var scrollToElement = function (elem) {
-			var el = $('#'+elem);
+			var editorWindow = $('iframe.ui-frame').contents(),
+				el = editorWindow.find('[data-lead-id="'+elem+'"');
 
 			if(el.length){
-				$('iframe.ui-frame').animate({
-					scrollTop: $('iframe.ui-frame').contents().find(el).offset().top
+				editorWindow.find('body,html').animate({
+					scrollTop: el.offset().top+40
 				});
 			}
 		};
@@ -92,7 +93,6 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 
-
 			Mousetrap.bind('enter', function (e) {
 				var isTextElement = currentElement.find('.fa-font'),
 					dataID = currentElement.closest('li').data('editable-id'),
@@ -107,7 +107,7 @@ javascript: void function() {
 					currentElement.find('.title').trigger('click');
 				}
 
-				scrollToElement(dataID);
+				scrollToElement( dataID );
 			});
 
 			Mousetrap.bind('esc', function (e) {
