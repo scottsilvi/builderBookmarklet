@@ -89,9 +89,7 @@ javascript: void function() {
 			Mousetrap.bind('space', function (e) {
 			 	var eye = currentElement.find('.glyphicon-eye-open');
 
-			 	eye = eye.length ? '.glyphicon-eye-open' : '.glyphicon-eye-close';
-
-				currentElement.find(eye).trigger('click');
+				currentElement.find('.glyphicon-eye-' + eye.length ? 'open' : 'close').trigger('click');
 			});
 			
 			Mousetrap.bind('right', function (e) {
