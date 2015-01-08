@@ -34,7 +34,9 @@ javascript: void function() {
 
 		var scrollToElement = function (elem) {
 			var editorWindow = $('iframe.ui-frame').contents(),
-				el = editorWindow.find('[data-lead-id="'+elem+'"');
+				elemID = editorWindow.find('#'+elem),
+				dataLeadId = editorWindow.find('[data-lead-id="'+elem+'"'),
+				el = elemID.length ? elemID : dataLeadID;
 
 			if(el.length){
 				editorWindow.find('body,html').animate({
