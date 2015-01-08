@@ -89,9 +89,7 @@ javascript: void function() {
 			Mousetrap.bind('space', function (e) {
 			 	var eye = currentElement.find('.glyphicon-eye-open');
 
-			 	eye = eye.length ? '.glyphicon-eye-open' : '.glyphicon-eye-close';
-
-				currentElement.find(eye).trigger('click');
+				currentElement.find('.glyphicon-eye-' + eye.length ? 'open' : 'close').trigger('click');
 			});
 			
 			Mousetrap.bind('right', function (e) {
@@ -107,6 +105,8 @@ javascript: void function() {
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
+				} else if(isTextElement.length){
+					App.viewport.showTextEditor(editorWindow.find('[data-lead-id="'+dataID+'"')[0], true);
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
