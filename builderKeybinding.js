@@ -51,7 +51,7 @@ javascript: void function() {
 			toggleInteractiveClass(currentElement, true);
 
 			//Collapse All
-			Mousetrap.bind('ctrl+shift+h', function(){
+			Mousetrap.bind('ctrl+shift+c', function(){
 				toggleInteractiveClass(currentElement, false);
 				$('.expand.fa-minus-square').trigger('click');
 				currentElement = $('.list-group-item').eq(0);
