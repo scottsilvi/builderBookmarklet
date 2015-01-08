@@ -48,7 +48,7 @@ javascript: void function() {
 		var scrollToElement = function (elem) {
 			var editorWindow = $('iframe.ui-frame').contents(),
 				elemID = editorWindow.find('#'+elem),
-				dataLeadId = editorWindow.find('[data-lead-id="'+elem+'"'),
+				dataLeadID = editorWindow.find('[data-lead-id="'+elem+'"'),
 				el = elemID.length ? elemID : dataLeadID;
 
 			if(el.length){
@@ -180,7 +180,7 @@ javascript: void function() {
 			$('a.title').click(function(){
 				toggleInteractiveClass( currentElement, false );
 				scrollToElement( $(this).closest('li').data('editable-id') );
-				setCurrentElement($(this).closest('li'));
+				currentElement = $(this).closest('li');
 				toggleInteractiveClass( currentElement, true );
 			});
 
