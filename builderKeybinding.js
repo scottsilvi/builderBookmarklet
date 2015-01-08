@@ -16,6 +16,7 @@ javascript: void function() {
 
 	head.appendChild(style);
 	document.body.appendChild(jsCode);
+	
 
 	var currentElement, tmpElement;
 
@@ -115,24 +116,44 @@ javascript: void function() {
 			});
 
 			Mousetrap.bind('esc', function (e) {
-				var modal = $('.modal.fade.in');
+				var modal = $('.modal.fade.in'),
+					doneButton = modal.find('.btn-primary') || modal.find('iframe').contents().find('.btn-primary');
 
 				if(modal.is(':visible')){
-					modal.find('.btn-primary').trigger('click');
+					doneButton.trigger('click');
+				}
+
+				console.log($('.viewmode-editing'));
+				console.log($(window.parent).find('.viewmode-editing'));
+
+				var editingMode = $('.viewmode-editing');
+				if(editingMode.length){
+					editingMode.find('[data-action="blur"]').trigger('click');
 				}
 			});
 
 			Mousetrap.bind('ctrl+1', function (e) {
-				$('#view-desktop').trigger('click');
+				$('[data-action="view-desktop"]').trigger('click');
+				App.viewport.previewDesktop();
 			});
 
 			Mousetrap.bind('ctrl+2', function (e) {
-				$('#view-tablet').trigger('click');
+				$('[data-action="view-tablet"]').trigger('click');
+				App.viewport.previewTablet();
 			});
 
 			Mousetrap.bind('ctrl+3', function (e) {
-				$('#view-phone').trigger('click');
+				$('[data-action="view-mobile"]').trigger('click');
+				App.viewport.previewMobile();
 			});
+
+			Mousetrap.bind('ctrl+s', function (e) {
+				App.viewport.savePage();
+			});
+
+			Mousetrap.bind('ctrl+p', function (e) {
+				App.viewport.showPublishMenu();
+			})
 
 			$('a.title').click(function(){
 				toggleInteractiveClass( currentElement, false );
