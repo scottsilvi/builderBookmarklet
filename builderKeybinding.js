@@ -22,16 +22,29 @@ javascript: void function() {
 
 	setTimeout(function () {
 
+		/**
+		 * Toggle highlight on the current element
+		 * @param elem {Object} jQuery object, DOM element
+		 * @param toggle {Boolean} Toggle highlight on / off
+		 */
 		var toggleInteractiveClass = function (elem, toggle) {
 			elem.toggleClass('currentInteractiveElement', toggle);
 		};
 
+		/**
+		 * Set a temp object to the currentObject
+		 * @param temp {Object} jQuery object, DOM element
+		 */
 		var setCurrentElement = function (temp) {
 			if (temp.length) {
 				currentElement = temp;
 			}
 		};
 
+		/**
+		 * Scroll to an element
+		 * @param elem {String} Either an id or data-lead-id
+		 */
 		var scrollToElement = function (elem) {
 			var editorWindow = $('iframe.ui-frame').contents(),
 				elemID = editorWindow.find('#'+elem),
@@ -47,7 +60,8 @@ javascript: void function() {
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
 			Mousetrap.reset();
-			// collapse all
+
+			// collapse all on initial Mousetrap binding
 			$('.expand.fa-minus-square').trigger('click');
 
 			currentElement = $('.list-group-item').eq(0);
@@ -61,6 +75,7 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 			
+			//Move up one element
 			Mousetrap.bind('up', function (e) {
 				toggleInteractiveClass(currentElement, false);
 				tmpElement = currentElement.prevAll(':visible:first');
@@ -68,6 +83,7 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 			
+			//Move down one element
 			Mousetrap.bind('down', function (e) {
 				toggleInteractiveClass(currentElement, false);
 				tmpElement = currentElement.nextAll(':visible:first');
@@ -75,6 +91,7 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 			
+			//Collapse current level back to parent
 			Mousetrap.bind('left', function (e) {
 				toggleInteractiveClass(currentElement, false);
 				tmpElement = 
@@ -89,18 +106,21 @@ javascript: void function() {
 				toggleInteractiveClass(currentElement, true);
 			});
 			
+			//Hide/show
 			Mousetrap.bind('space', function (e) {
 			 	var eye = currentElement.find('.glyphicon-eye-open');
 			 	eye = eye.length ? 'open' : 'close';
 				currentElement.find('.glyphicon-eye-'+eye).trigger('click');
 			});
 			
+			//Expand
 			Mousetrap.bind('right', function (e) {
 				toggleInteractiveClass(currentElement, false);
 				currentElement.find('.icon .expand.fa-plus-square').trigger('click');
 				toggleInteractiveClass(currentElement, true);
 			});
 
+			//Expands/Collapse parent + scroll to element + opens up editor/modal
 			Mousetrap.bind('enter', function (e) {
 				var isTextElement = currentElement.find('.fa-font'),
 					dataID = currentElement.closest('li').data('editable-id'),
@@ -117,6 +137,7 @@ javascript: void function() {
 				scrollToElement( dataID );
 			});
 
+			//Close modals
 			Mousetrap.bind('esc', function (e) {
 				var modal = $('.modal.fade.in'),
 					doneButton = modal.find('.btn-primary') || modal.find('iframe').contents().find('.btn-primary');
@@ -125,42 +146,41 @@ javascript: void function() {
 					doneButton.trigger('click');
 				}
 
-				console.log($('.viewmode-editing'));
-				console.log($(window.parent).find('.viewmode-editing'));
-
-				var editingMode = $('.viewmode-editing');
-				if(editingMode.length){
-					editingMode.find('[data-action="blur"]').trigger('click');
-				}
 			});
 
+			//Desktop View Mode
 			Mousetrap.bind('ctrl+1', function (e) {
 				$('[data-action="view-desktop"]').trigger('click');
 				App.viewport.previewDesktop();
 			});
 
+			//Tablet View Mode
 			Mousetrap.bind('ctrl+2', function (e) {
 				$('[data-action="view-tablet"]').trigger('click');
 				App.viewport.previewTablet();
 			});
 
+			//Phone View Mode
 			Mousetrap.bind('ctrl+3', function (e) {
 				$('[data-action="view-mobile"]').trigger('click');
 				App.viewport.previewMobile();
 			});
 
+			//Save
 			Mousetrap.bind('ctrl+s', function (e) {
 				App.viewport.savePage();
 			});
 
+			//Publish
 			Mousetrap.bind('ctrl+p', function (e) {
 				App.viewport.showPublishMenu();
 			})
 
+			//When click on link it will also scroll to the element
 			$('a.title').click(function(){
 				toggleInteractiveClass( currentElement, false );
 				scrollToElement( $(this).closest('li').data('editable-id') );
-				currentElement = $(this).closest('li');
+				setCurrentElement($(this).closest('li'));
 				toggleInteractiveClass( currentElement, true );
 			});
 
