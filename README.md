@@ -45,7 +45,7 @@ Collapse all
 
 > Esc
 
-Will close any modal that is currently opened.
+Will close any modal that is currently opened and close out editing mode.
 
 > Ctrl+1
 
@@ -58,6 +58,14 @@ Tablet Viewing Mode
 > Ctrl+3
 
 Phone Viewing Mode
+
+> Ctrl+s
+
+Save page
+
+> Ctrl+p
+
+Publish page
 
 ## Contributing
 
