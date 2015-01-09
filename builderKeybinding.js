@@ -22,6 +22,8 @@ javascript: void function() {
 
 	setTimeout(function () {
 
+		var editorWindow = $('iframe.ui-frame').contents();
+
 		/**
 		 * Toggle highlight on the current element
 		 * @param elem {Object} jQuery object, DOM element
@@ -46,8 +48,7 @@ javascript: void function() {
 		 * @param elem {String} Either an id or data-lead-id
 		 */
 		var scrollToElement = function (elem) {
-			var editorWindow = $('iframe.ui-frame').contents(),
-				elemID = editorWindow.find('#'+elem),
+			var elemID = editorWindow.find('#'+elem),
 				dataLeadID = editorWindow.find('[data-lead-id="'+elem+'"'),
 				el = elemID.length ? elemID : dataLeadID;
 
@@ -124,20 +125,29 @@ javascript: void function() {
 
 			//Expands/Collapse parent + scroll to element + opens up editor/modal
 			Mousetrap.bind('enter', function (e) {
-				var isTextElement = currentElement.find('.fa-font'),
-					dataID = currentElement.closest('li').data('editable-id'),
-					editorWindow = $('iframe.ui-frame').contents();
+				var dataID = currentElement.closest('li').data('editable-id');
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
-				} else if(isTextElement.length){
-					App.viewport.showTextEditor(editorWindow.find('[data-lead-id="'+dataID+'"')[0], true);
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
 
 				scrollToElement( dataID );
 			});
+
+			//Enter text editing mode
+			Mousetrap.bind('shift+enter', function (e) {
+				var isTextElement = currentElement.find('.fa-font'),
+					dataID = currentElement.closest('li').data('editable-id');
+
+				dataID = editorWindow.find('#'+dataID).length ? editorWindow.find('#'+dataID) : find('[data-lead-id="'+dataID+'"');
+				
+
+				if(isTextElement.length){
+					App.viewport.showTextEditor(dataID[0], true);
+				}
+			})
 
 			//Close modals
 			Mousetrap.bind('esc', function (e) {

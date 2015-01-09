@@ -37,7 +37,11 @@ The right arrow will expand a container
 > Enter
 
 1. If focus is on a container element, will expand / collapse. 
-2. If focus is on an editable element, will launch editor for element (image editor for images, inline text editor for text, etc)
+2. If focus is on an editable element, will launch editor for element (image editor for images / shift+enter for inline text editor for text, etc)
+
+> Shift+Enter
+
+Enter inline text editing mode
 
 > Ctrl+shift+c
 
