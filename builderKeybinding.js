@@ -110,7 +110,9 @@ javascript: void function() {
 			Mousetrap.bind('space', function (e) {
 			 	var eye = currentElement.find('.glyphicon-eye-open');
 			 	eye = eye.length ? 'open' : 'close';
+			 	console.log(eye);
 				currentElement.find('.glyphicon-eye-'+eye).trigger('click');
+				console.log('after: '+eye);
 			});
 			
 			//Expand
@@ -180,7 +182,7 @@ javascript: void function() {
 			$('a.title').click(function(){
 				toggleInteractiveClass( currentElement, false );
 				scrollToElement( $(this).closest('li').data('editable-id') );
-				currentElement = $(this).closest('li');
+				setCurrentElement($(this).closest('li'));
 				toggleInteractiveClass( currentElement, true );
 			});
 
