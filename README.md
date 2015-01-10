@@ -71,6 +71,10 @@ Save page
 
 Publish page
 
+> Ctrl+x
+
+Switch between Content and Styles editing modes
+
 ## Contributing
 
 1. Fork it!
