@@ -22,6 +22,8 @@ javascript: void function() {
 
 	setTimeout(function () {
 
+		var editorWindow = $('iframe.ui-frame').contents();
+
 		/**
 		 * Toggle highlight on the current element
 		 * @param elem {Object} jQuery object, DOM element
@@ -46,8 +48,7 @@ javascript: void function() {
 		 * @param elem {String} Either an id or data-lead-id
 		 */
 		var scrollToElement = function (elem) {
-			var editorWindow = $('iframe.ui-frame').contents(),
-				elemID = editorWindow.find('#'+elem),
+			var elemID = editorWindow.find('#'+elem),
 				dataLeadID = editorWindow.find('[data-lead-id="'+elem+'"'),
 				el = elemID.length ? elemID : dataLeadID;
 
@@ -59,11 +60,44 @@ javascript: void function() {
 		};
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
-			Mousetrap.reset();
 
-			// collapse all on initial Mousetrap binding
+			var modalHTML = [
+					'<div id="shortcuts" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="shortCutsLabel" aria-hidden="true">',
+					'<div class="modal-dialog"><div class="modal-content">',
+					'<div class="modal-header">',
+	        		'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
+	        		'<h4 class="modal-title" id="shortCutsLabel">Keyboard Shortcuts</h4>',
+	      			'</div>',
+	      			'<div class="modal-body">',
+	      			'<div class="container-fluid"><div class="row">',
+	      			'<div class="col-sm-4 col-md-4">',
+	      			'<h5>&lt;?&gt;</h5><p>Keyboard shortcuts<p>',
+	      			'<h5>&lt;Up / Down&gt;</h5><p>Move up or down</p>',
+	      			'<h5>&lt;Left / Right&gt;</h5><p>Collapse / Expand</p>',
+	      			'<h5>&lt;Enter&gt;</h5><p>If focus on container element will expand/collapse, scroll to element, and open up editing mode for images, links, videos',
+	      			'</div><div class="col-sm-4 col-md-4">',
+	      			'<h5>&lt;Shift+Enter&gt;</h5><p>Enter inline editing mode for <b>Text</b> element',
+	      			'<h5>&lt;Esc&gt;</h5><p>Dismiss any opened modal</p>',
+	      			'<h5>&lt;Ctrl+Shift+C&gt;</h5><p>Collapse all</p>',
+	      			'<h5>&lt;Ctrl+1&gt; / &lt;Ctrl+2&gt; / &lt;Ctrl+3&gt;</h5><p>Responsive / Tablet / Phone viewing mode</p>',
+	      			'</div><div class="col-sm-4 col-md-4">',
+	      			'<h5>&lt;Ctrl+s&gt;</h5><p>Save page</p>',
+	      			'<h5>&lt;Ctrl+p&gt;</h5><p>Publish (mostly show the publish options)</p>',
+	      			'<h5>&lt;Ctrl+x&gt;</h5><p>Switch between Content and Styles editing modes</p>',
+	      			'</div>',
+	      			'</div></div>',
+	      			'</div></div></div></div></div>'
+	      		]
+
+      		$('body').append(modalHTML.join(''));
+      		$('#shortcuts').modal('show');
+
+      		//BUG: This will replace the previously injected Mousetrap.js
+      		editorWindow.find('body').append(jsCode);
+      		Mousetrap.reset();
+
+      		// collapse all on initial Mousetrap binding
 			$('.expand.fa-minus-square').trigger('click');
-
 			currentElement = $('.list-group-item').eq(0);
 			toggleInteractiveClass(currentElement, true);
 
@@ -122,20 +156,30 @@ javascript: void function() {
 
 			//Expands/Collapse parent + scroll to element + opens up editor/modal
 			Mousetrap.bind('enter', function (e) {
-				var isTextElement = currentElement.find('.fa-font'),
-					dataID = currentElement.closest('li').data('editable-id'),
-					editorWindow = $('iframe.ui-frame').contents();
+				var dataID = currentElement.closest('li').data('editable-id');
 
 				if($('.modal.fade.in').is(':visible')){
 					return false;
-				} else if(isTextElement.length){
-					App.viewport.showTextEditor(editorWindow.find('[data-lead-id="'+dataID+'"')[0], true);
 				} else {
 					currentElement.find('.title').trigger('click');
 				}
 
 				scrollToElement( dataID );
 			});
+
+			//Enter text editing mode
+			Mousetrap.bind('shift+enter', function (e) {
+				var isTextElement = currentElement.find('.fa-font'),
+					dataID = currentElement.closest('li').data('editable-id');
+
+				dataID = editorWindow.find('#'+dataID).length ? editorWindow.find('#'+dataID) : editorWindow.find('[data-lead-id="'+dataID+'"');
+				
+
+				if(isTextElement.length){
+					App.viewport.showTextEditor(dataID[0], true);
+					console.log()
+				}
+			})
 
 			//Close modals
 			Mousetrap.bind('esc', function (e) {
@@ -145,6 +189,8 @@ javascript: void function() {
 				if(modal.is(':visible')){
 					doneButton.trigger('click');
 				}
+
+				console.log('escap');
 
 			});
 
@@ -174,13 +220,27 @@ javascript: void function() {
 			//Publish
 			Mousetrap.bind('ctrl+p', function (e) {
 				App.viewport.showPublishMenu();
-			})
+			});
+
+			//Switch between Content / Styles tabs
+			Mousetrap.bind('ctrl+x', function () {
+				var editingTab = $('#list-content').is(':visible') ? "styles" : "content";
+
+				$('.editable-settings').find('[data-flags="'+editingTab+'"]').trigger('click');
+				
+			});
+
+			Mousetrap.bind('shift+/', function(){
+      			if($('#shortcuts').length){
+      				$('#shortcuts').modal('show');
+      			}
+			});
 
 			//When click on link it will also scroll to the element
 			$('a.title').click(function(){
 				toggleInteractiveClass( currentElement, false );
 				scrollToElement( $(this).closest('li').data('editable-id') );
-				currentElement = $(this).closest('li');
+				setCurrentElement($(this).closest('li'));
 				toggleInteractiveClass( currentElement, true );
 			});
 
