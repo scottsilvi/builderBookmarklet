@@ -1,10 +1,22 @@
 javascript: void function() {
-	var jsCode = document.createElement('script'), styleArr = [],
+
+	var createMouseTrapScript = function (doc) {
+		var tmp = doc.createElement('script');
+		tmp.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js');
+
+		doc.body.appendChild(tmp);
+	};
+
+	var createChildBindingScript = function (doc) {
+
+		doc.body.appendChild(tmp);
+	}
+
+	var styleArr = [],
 	head = document.head || document.getElementsByTagName('head')[0],
     style = document.createElement('style');
 
 	style.type = 'text/css';
-	jsCode.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js');
 
 	styleArr.push('.currentInteractiveElement { background-color: #F1B9BA !important; }');         
 
@@ -15,7 +27,8 @@ javascript: void function() {
 	}
 
 	head.appendChild(style);
-	document.body.appendChild(jsCode);
+
+	createMouseTrapScript(document);
 	
 
 	var currentElement, tmpElement;
@@ -93,7 +106,6 @@ javascript: void function() {
       		$('#shortcuts').modal('show');
 
       		//BUG: This will replace the previously injected Mousetrap.js
-      		editorWindow.find('body').append(jsCode);
       		Mousetrap.reset();
 
       		// collapse all on initial Mousetrap binding
@@ -235,6 +247,17 @@ javascript: void function() {
       				$('#shortcuts').modal('show');
       			}
 			});
+
+
+      		createMouseTrapScript(editorWindow[0]);
+
+      		setTimeout(function () {
+      			var mt = $('iframe.ui-frame')[0].contentWindow.Mousetrap;
+      			mt.stopCallback = function () {};
+	      		mt.bind('ctrl+shift+i', function (e) {
+	      			parent.focus();
+	      		});	
+      		}, 2000)
 
 			//When click on link it will also scroll to the element
 			$('a.title').click(function(){
