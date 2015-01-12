@@ -60,10 +60,6 @@ javascript: void function() {
 		};
 
 		Mousetrap.bind('ctrl+shift+i', function (e) {
-			Mousetrap.reset();
-
-			// collapse all on initial Mousetrap binding
-			$('.expand.fa-minus-square').trigger('click');
 
 			var modalHTML = [
 					'<div id="shortcuts" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="shortCutsLabel" aria-hidden="true">',
@@ -73,18 +69,18 @@ javascript: void function() {
 	        		'<h4 class="modal-title" id="shortCutsLabel">Keyboard Shortcuts</h4>',
 	      			'</div>',
 	      			'<div class="modal-body">',
-	      			'<div class="container"><div class="row">',
-	      			'<div class="col-md-4">',
+	      			'<div class="container-fluid"><div class="row">',
+	      			'<div class="col-sm-4 col-md-4">',
 	      			'<h5>&lt;?&gt;</h5><p>Keyboard shortcuts<p>',
 	      			'<h5>&lt;Up / Down&gt;</h5><p>Move up or down</p>',
 	      			'<h5>&lt;Left / Right&gt;</h5><p>Collapse / Expand</p>',
 	      			'<h5>&lt;Enter&gt;</h5><p>If focus on container element will expand/collapse, scroll to element, and open up editing mode for images, links, videos',
-	      			'</div><div class="col-md-3">',
+	      			'</div><div class="col-sm-4 col-md-4">',
 	      			'<h5>&lt;Shift+Enter&gt;</h5><p>Enter inline editing mode for <b>Text</b> element',
 	      			'<h5>&lt;Esc&gt;</h5><p>Dismiss any opened modal</p>',
 	      			'<h5>&lt;Ctrl+Shift+C&gt;</h5><p>Collapse all</p>',
 	      			'<h5>&lt;Ctrl+1&gt; / &lt;Ctrl+2&gt; / &lt;Ctrl+3&gt;</h5><p>Responsive / Tablet / Phone viewing mode</p>',
-	      			'</div><div class="col-md-3">',
+	      			'</div><div class="col-sm-4 col-md-4">',
 	      			'<h5>&lt;Ctrl+s&gt;</h5><p>Save page</p>',
 	      			'<h5>&lt;Ctrl+p&gt;</h5><p>Publish (mostly show the publish options)</p>',
 	      			'<h5>&lt;Ctrl+x&gt;</h5><p>Switch between Content and Styles editing modes</p>',
@@ -93,10 +89,15 @@ javascript: void function() {
 	      			'</div></div></div></div></div>'
 	      		]
 
-      			$('body').append(modalHTML.join(''));
-
+      		$('body').append(modalHTML.join(''));
       		$('#shortcuts').modal('show');
 
+      		//BUG: This will replace the previously injected Mousetrap.js
+      		editorWindow.find('body').append(jsCode);
+      		Mousetrap.reset();
+
+      		// collapse all on initial Mousetrap binding
+			$('.expand.fa-minus-square').trigger('click');
 			currentElement = $('.list-group-item').eq(0);
 			toggleInteractiveClass(currentElement, true);
 
@@ -176,6 +177,7 @@ javascript: void function() {
 
 				if(isTextElement.length){
 					App.viewport.showTextEditor(dataID[0], true);
+					console.log()
 				}
 			})
 
@@ -187,6 +189,8 @@ javascript: void function() {
 				if(modal.is(':visible')){
 					doneButton.trigger('click');
 				}
+
+				console.log('escap');
 
 			});
 
