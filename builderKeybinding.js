@@ -1,10 +1,22 @@
 javascript: void function() {
-	var jsCode = document.createElement('script'), styleArr = [],
+
+	var createMouseTrapScript = function (doc) {
+		var tmp = doc.createElement('script');
+		tmp.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js');
+
+		doc.body.appendChild(tmp);
+	};
+
+	var createChildBindingScript = function (doc) {
+
+		doc.body.appendChild(tmp);
+	}
+
+	var styleArr = [],
 	head = document.head || document.getElementsByTagName('head')[0],
     style = document.createElement('style');
 
 	style.type = 'text/css';
-	jsCode.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js');
 
 	styleArr.push('.currentInteractiveElement { background-color: #F1B9BA !important; }');         
 
@@ -15,7 +27,8 @@ javascript: void function() {
 	}
 
 	head.appendChild(style);
-	document.body.appendChild(jsCode);
+
+	createMouseTrapScript(document);
 	
 
 	var currentElement, tmpElement;
@@ -64,10 +77,6 @@ javascript: void function() {
 			var modalHTML = [
 					'<div id="shortcuts" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="shortCutsLabel" aria-hidden="true">',
 					'<div class="modal-dialog"><div class="modal-content">',
-					'<div class="modal-header">',
-	        		'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
-	        		'<h4 class="modal-title" id="shortCutsLabel">Keyboard Shortcuts</h4>',
-	      			'</div>',
 	      			'<div class="modal-body">',
 	      			'<div class="container-fluid"><div class="row">',
 	      			'<div class="col-sm-4 col-md-4">',
@@ -77,7 +86,7 @@ javascript: void function() {
 	      			'<h5>&lt;Enter&gt;</h5><p>If focus on container element will expand/collapse, scroll to element, and open up editing mode for images, links, videos',
 	      			'</div><div class="col-sm-4 col-md-4">',
 	      			'<h5>&lt;Shift+Enter&gt;</h5><p>Enter inline editing mode for <b>Text</b> element',
-	      			'<h5>&lt;Esc&gt;</h5><p>Dismiss any opened modal</p>',
+	      			'<h5>&lt;Esc&gt;</h5><p>Dismiss editor modals (excepted LeadBox) and refocus to sidebar if in Text editing mode</p>',
 	      			'<h5>&lt;Ctrl+Shift+C&gt;</h5><p>Collapse all</p>',
 	      			'<h5>&lt;Ctrl+1&gt; / &lt;Ctrl+2&gt; / &lt;Ctrl+3&gt;</h5><p>Responsive / Tablet / Phone viewing mode</p>',
 	      			'</div><div class="col-sm-4 col-md-4">',
@@ -93,7 +102,6 @@ javascript: void function() {
       		$('#shortcuts').modal('show');
 
       		//BUG: This will replace the previously injected Mousetrap.js
-      		editorWindow.find('body').append(jsCode);
       		Mousetrap.reset();
 
       		// collapse all on initial Mousetrap binding
@@ -179,7 +187,17 @@ javascript: void function() {
 					App.viewport.showTextEditor(dataID[0], true);
 					console.log()
 				}
-			})
+			});
+
+			//Re-focus on sidebar
+			createMouseTrapScript(editorWindow[0]);
+      		setTimeout(function () {
+      			var mt = $('iframe.ui-frame')[0].contentWindow.Mousetrap;
+      			mt.stopCallback = function () {};
+	      		mt.bind('esc', function (e) {
+	      			parent.focus();
+	      		});	
+      		}, 2000)
 
 			//Close modals
 			Mousetrap.bind('esc', function (e) {
@@ -189,8 +207,6 @@ javascript: void function() {
 				if(modal.is(':visible')){
 					doneButton.trigger('click');
 				}
-
-				console.log('escap');
 
 			});
 
