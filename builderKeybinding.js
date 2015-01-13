@@ -197,7 +197,7 @@ javascript: void function() {
 	      		mt.bind('esc', function (e) {
 	      			parent.focus();
 	      		});	
-      		}, 2000)
+      		}, 2000);
 
 			//Close modals
 			Mousetrap.bind('esc', function (e) {
