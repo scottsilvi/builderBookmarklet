@@ -4,10 +4,9 @@ This Bookmarklet exposes keybinding functionality for manipulating the builder. 
 
 ## Installation
 
-Just add the bookmarklet below to your bookmarks bar: 
-```javascript
-javascript:(function(){var el=document.createElement('script');el.src='https://rawgit.com/scottsilvi/builderBookmarklet/master/builderKeybinding.js';document.body.appendChild(el);})();
-```
+Just drag the bookmarklet below to your bookmarks bar: 
+
+<a href="javascript:(function(){var el=document.createElement('script');el.src='https://rawgit.com/scottsilvi/builderBookmarklet/master/builderKeybinding.js';document.body.appendChild(el);})();">Builder Keybinder</a>
 
 ## Usage
 
